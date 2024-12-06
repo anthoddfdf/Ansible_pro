@@ -11,3 +11,15 @@
        - sl
       update_cache: yes
       state: latest
+
+
+- hosts: web_server
+  become: true
+  tasks:
+
+  - name: updating the cache
+    ansible.builtin.apt:
+      name:
+       - wget
+       - sl
+      state: absent 
