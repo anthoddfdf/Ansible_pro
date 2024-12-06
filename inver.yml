@@ -11,3 +11,45 @@
        - sl
       update_cache: yes
       state: latest
+
+
+- hosts: web_server
+  become: true
+  tasks:
+
+  - name: updating nginx
+    tags: always
+    ansible.builtin.apt:
+      name: 
+       - nginx
+       - wget
+       - sl
+       - neofetch
+      state: present
+  - name: copy the page file
+    tags: nginx
+    ansible.builtin.copy:
+      src: index.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+  
+  - name: stating Njinx service
+    ansible.builtin.service:
+       name: nginx
+       state: started
+
+
+- hosts: d_b_servers
+  become: true
+  tasks:
+
+  - name: Adding a new user 
+    ansible.builtin.user:
+       name: kel
+       shell: /bin/bash
+       state: present
+       home: /home/kel
+       group: root
+
