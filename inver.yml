@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: true
+  tasks:
+
+  - name: instaling neofetch
+    ansible.builtin.apt:
+      name: 
+       - wget
+       - neofetch
+       - sl
+      update_cache: yes
+      state: latest
