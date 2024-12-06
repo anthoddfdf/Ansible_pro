@@ -39,3 +39,17 @@
     ansible.builtin.service:
        name: nginx
        state: started
+
+
+- hosts: d_b_servers
+  become: true
+  tasks:
+
+  - name: Adding a new user 
+    ansible.builtin.user:
+       name: kel
+       shell: /bin/bash
+       state: present
+       home: /home/kel
+       group: root
+
