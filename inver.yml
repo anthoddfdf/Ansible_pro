@@ -17,9 +17,25 @@
   become: true
   tasks:
 
-  - name: updating the cache
+  - name: updating nginx
+    tags: always
     ansible.builtin.apt:
-      name:
+      name: 
+       - nginx
        - wget
        - sl
-      state: absent 
+       - neofetch
+      state: present
+  - name: copy the page file
+    tags: nginx
+    ansible.builtin.copy:
+      src: index.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+  
+  - name: stating Njinx service
+    ansible.builtin.service:
+       name: nginx
+       state: started
