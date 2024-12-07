@@ -1,0 +1,9 @@
+---
+- name: updating the wedpage
+  ansible.builtin.copy:
+    src: index.html
+    dest: /var/www/html/index.html
+- name: updating the webpage
+  ansible.builtin.service:
+    name: nginx 
+    state: started

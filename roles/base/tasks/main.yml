@@ -1,0 +1,21 @@
+---
+- name: creating a user
+  ansible.builtin.user:
+     name: prob
+     shell: /bin/bash
+     home: /home/prob
+     state: present
+#To add a sudo file to the user
+#- name:add asudo file 
+#   ansible.builtin.copy:
+#      src: file/path
+#      dest: /etc.sudoers.d/(file name)
+#      owner: root
+#      group: root
+#      mood: 0400
+#file to creat 
+#- name: add ssk key
+#  tags: alw
+#  ansible.builtin.authorized_key:
+#     user: user name
+#      key: " " 

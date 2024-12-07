@@ -1,0 +1,10 @@
+---
+- name: installing docker.io 
+  ansible.builtin.apt:
+     name: docker.io
+     state: present
+
+- name: updating the package
+  ansible.builtin.service:
+     name: docker
+     state: started

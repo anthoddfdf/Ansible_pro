@@ -1,0 +1,29 @@
+---
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: updating the ubuntu
+    ansible.builtin.apt:
+      update_cache: yes
+      upgrade: dist
+      
+- hosts: all
+  become: true
+  roles:
+    - base
+
+- hosts: d_b_servers
+  become: true
+  roles:
+   - d_b_server
+
+- hosts: web_servers
+  become: true
+  roles:
+   - web_server
+
+- hosts: prod_servers
+  become: true
+  roles:
+   - pro_server
