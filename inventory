@@ -1,5 +1,8 @@
 [web_server]
-ubuntu@44.203.194.32
+ubuntu@174.129.163.14
 
 [d_b_servers]
-ubuntu@34.228.210.55
+ubuntu@18.234.194.242
+
+[prod_servers]
+ubuntu@54.89.94.184
