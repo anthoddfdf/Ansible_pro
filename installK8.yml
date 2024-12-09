@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: true
+  roles:
+   - base
+
+- hosts: master_s
+  become: true
+  roles:
+   - master_s
+
+- hosts: worker_s
+  become: true
+  roles:
+   - worker_s

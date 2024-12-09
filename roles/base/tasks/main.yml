@@ -1,21 +1,60 @@
 ---
-- name: creating a user
-  ansible.builtin.user:
-     name: prob
-     shell: /bin/bash
-     home: /home/prob
+- name: installing docker.io
+  ansible.builtin.apt:
+     name: docker.io
      state: present
-#To add a sudo file to the user
-#- name:add asudo file 
-#   ansible.builtin.copy:
-#      src: file/path
-#      dest: /etc.sudoers.d/(file name)
-#      owner: root
-#      group: root
-#      mood: 0400
-#file to creat 
-#- name: add ssk key
-#  tags: alw
-#  ansible.builtin.authorized_key:
-#     user: user name
-#      key: " " 
+
+- name: updating the package
+  ansible.builtin.service:
+     name: docker
+     state: started
+
+- name: Ensure required directories exist
+  ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+- name: Add Kubernetes GPG key
+  ansible.builtin.shell: |
+        curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | \
+        gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+  register: add_key_result
+- name: Verify GPG key was added
+  ansible.builtin.stat:
+        path: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+  register: key_stat
+  failed_when: not key_stat.stat.exists
+- name: Add Kubernetes repository
+  ansible.builtin.shell: |
+        echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | \
+        tee /etc/apt/sources.list.d/kubernetes.list
+ 
+- name: Update package list
+  ansible.builtin.apt:
+        update_cache: yes
+
+
+
+- name: Install Kubernetes packages
+  ansible.builtin.apt:
+        name:
+          - kubelet
+          - kubeadm
+          - kubectl
+        state: present
+        update_cache: yes
+
+- name: Disable swap
+  ansible.builtin.command: swapoff -a
+ 
+
+# Corrected section for disabling swap in /etc/fstab
+- name: Remove swap entry from /etc/fstab
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    regexp: '^\s*([^#]+)\s+swap\s+'
+    state: absent
+

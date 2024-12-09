@@ -1,0 +1,4 @@
+---
+- name: Join worker nodes to the cluster
+  ansible.builtin.command: "{{ hostvars['master_s']['kubeadm_output']['stdout_lines'][0] }}"
+  when: "'kubeadm join' in hostvars['master']['kubeadm_output']['stdout']"

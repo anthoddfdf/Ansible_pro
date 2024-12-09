@@ -1,9 +1,7 @@
 
-[web_servers]
+[master_s]
 ubuntu@54.208.114.149
 
-[d_b_servers]
+[worker_s]
 ubuntu@54.156.78.143
-
-[prod_servers]
 ubuntu@3.87.153.47
